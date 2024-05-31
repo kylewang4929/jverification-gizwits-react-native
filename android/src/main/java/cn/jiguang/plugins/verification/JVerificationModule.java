@@ -100,7 +100,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     public void getToken(int time, final Callback callback) {
         JVerificationInterface.getToken(reactContext, time, new VerifyListener() {
             @Override
-            public void onResult(int code, String content, String operator) {
+            public void onResult(int code, String content, String operator, JSONObject operatorReturn) {
                 if (callback == null)
                     return;
                 callback.invoke(convertToResult(code, content, operator));
@@ -112,7 +112,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     public void preLogin(int time, final Callback callback) {
         JVerificationInterface.preLogin(reactContext, time, new PreLoginListener() {
             @Override
-            public void onResult(int code, String content) {
+            public void onResult(int code, String content, JSONObject operatorReturn) {
                 if (callback == null)
                     return;
                 callback.invoke(convertToResult(code, content));
@@ -133,7 +133,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         JVerificationInterface.setCustomUIWithConfig(builder.build());
         JVerificationInterface.loginAuth(reactContext, enable, new VerifyListener() {
             @Override
-            public void onResult(int code, String content, String operator) {
+            public void onResult(int code, String content, String operator,JSONObject operatorReturn) {
                 sendEvent(JConstans.LOGIN_EVENT, convertToResult(code, content, operator));
             }
         }, new AuthPageEventListener() {
@@ -171,7 +171,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         });
         JVerificationInterface.loginAuth(reactContext, settings, new VerifyListener() {
             @Override
-            public void onResult(int code, String content, String operator) {
+            public void onResult(int code, String content, String operator, JSONObject operatorReturn) {
                 sendEvent(JConstans.LOGIN_EVENT, convertToResult(code, content, operator));
             }
         });
@@ -477,7 +477,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             boolean show = readableMap.getBoolean(JConstans.EnableHintToast);
             if (show == true) {
                 String toastText = readableMap.getString(JConstans.PRIVACY_NO_CHECK_TOAST_TEXT);
-                Toast toast = Toast.makeText(this.reactContext, toastText, 0);
+                Toast toast = Toast.makeText(this.reactContext, toastText, Toast.LENGTH_SHORT);
                 builder.enableHintToast(true, toast);
             }
         }
